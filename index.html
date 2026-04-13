@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vihaan Shringi — Links" />
+  <title>Vihaan Shringi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #1a1a1a;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --text: #ebebeb;
+      --muted: #666;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56,189,248,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 80px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle dot grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient glow */
+    .ambient {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.04) 0%, transparent 65%);
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Noise grain */
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* --- Profile --- */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 88px;
+      height: 88px;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), rgba(99,102,241,0.6));
+      z-index: 0;
+      animation: rotate 6s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      border-radius: 50%;
+      background: var(--bg);
+      z-index: 1;
+    }
+
+    .avatar {
+      position: relative;
+      z-index: 2;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      margin: 2px;
+    }
+
+    .profile-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .profile-handle {
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .profile-bio strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* --- Links --- */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .link-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    .link-card:hover::before { opacity: 1; }
+
+    .link-card:active {
+      transform: translateY(0px);
+      box-shadow: none;
+    }
+
+    .link-card.accent {
+      border-color: rgba(56,189,248,0.2);
+      background: rgba(56,189,248,0.04);
+    }
+
+    .link-card.accent:hover {
+      border-color: rgba(56,189,248,0.4);
+      background: rgba(56,189,248,0.08);
+      box-shadow: 0 8px 32px rgba(56,189,248,0.1);
+    }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .link-card.accent .link-icon {
+      background: rgba(56,189,248,0.1);
+      border-color: rgba(56,189,248,0.2);
+    }
+
+    .link-card:hover .link-icon {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .link-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .link-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .link-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .link-sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .link-arrow {
+      color: var(--muted);
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .link-card:hover .link-arrow {
+      color: var(--text);
+      transform: translateX(3px);
+    }
+
+    /* --- Divider --- */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    /* --- Section label --- */
+    .section-label {
+      width: 100%;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      padding-left: 2px;
+    }
+
+    /* --- Footer --- */
+    .footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 52px;
+      text-align: center;
+    }
+
+    .footer-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-bottom: 10px;
+      animation: pulse 2.5s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* --- Stagger animation --- */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up:nth-child(1) { animation-delay: 0.05s; }
+    .fade-up:nth-child(2) { animation-delay: 0.1s; }
+    .fade-up:nth-child(3) { animation-delay: 0.15s; }
+    .fade-up:nth-child(4) { animation-delay: 0.2s; }
+    .fade-up:nth-child(5) { animation-delay: 0.25s; }
+    .fade-up:nth-child(6) { animation-delay: 0.3s; }
+    .fade-up:nth-child(7) { animation-delay: 0.35s; }
+    .fade-up:nth-child(8) { animation-delay: 0.4s; }
+
+    /* --- Mobile tweaks --- */
+    @media (max-width: 480px) {
+      body { padding: 40px 16px 72px; }
+      .profile-name { font-size: 24px; }
+      .link-card { padding: 14px 16px; }
+      .link-label { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient"></div>
+  <div class="noise"></div>
+
+  <div class="container">
+    <!-- Profile -->
+    <div class="profile fade-up">
+      <div class="avatar-wrap">
+        <img class="avatar" src="avatar.jpg" alt="Vihaan Shringi" />
+      </div>
+      <div class="profile-name">Vihaan Shringi</div>
+      <div class="profile-handle">@v1hns</div>
+      <p class="profile-bio">
+        Building at the intersection of <strong>AI, health, and community</strong>.<br/>
+        CS @ CMU · Founder · Builder.
+      </p>
+    </div>
+
+    <!-- Links -->
+    <div class="links">
+
+      <!-- Personal site -->
+      <a class="link-card accent fade-up" href="https://vihaanshringi.com" target="_blank" rel="noopener">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <span class="link-label">Personal Site</span>
+          <span class="link-sub">vihaanshringi.com</span>
+        </div>
+        <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- GitHub -->
+      <a class="link-card fade-up" href="https://github.com/v1hns" target="_blank" rel="noopener">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <span class="link-label">GitHub</span>
+          <span class="link-sub">github.com/v1hns</span>
+        </div>
+        <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- LinkedIn -->
+      <a class="link-card fade-up" href="https://linkedin.com/in/vihaan-shringi-4667b12b1" target="_blank" rel="noopener">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <span class="link-label">LinkedIn</span>
+          <span class="link-sub">Vihaan Shringi</span>
+        </div>
+        <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- Instagram -->
+      <a class="link-card fade-up" href="https://instagram.com/vhn1squests" target="_blank" rel="noopener">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <span class="link-label">Instagram</span>
+          <span class="link-sub">@vhn1squests</span>
+        </div>
+        <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- Email -->
+      <a class="link-card fade-up" href="mailto:vihaans@andrew.cmu.edu">
+        <div class="link-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <span class="link-label">Email</span>
+          <span class="link-sub">vihaans@andrew.cmu.edu</span>
+        </div>
+        <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer fade-up">
+    <div class="footer-dot"></div>
+    <p>Made with care · 2026</p>
+  </div>
+</body>
+</html>
