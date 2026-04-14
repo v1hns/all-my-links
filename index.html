@@ -21,33 +21,6 @@
       align-items: center;
     }
 
-    /* ── Banner ── */
-    .banner {
-      width: 100%;
-      max-width: 480px;
-      height: 170px;
-      position: relative;
-      overflow: hidden;
-      background: #060a14;
-      flex-shrink: 0;
-    }
-
-    .banner img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 60%;
-    }
-
-    /* subtle dark overlay so avatar + text read cleanly */
-    .banner::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 100%);
-    }
 
     /* ── Page wrapper ── */
     .page {
@@ -56,24 +29,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 20px 72px;
+      padding: 56px 20px 72px;
     }
 
     /* ── Avatar ── */
-    .avatar-wrap {
-      margin-top: -44px;
-      position: relative;
-      z-index: 2;
-    }
-
     .avatar-wrap img {
-      width: 88px;
-      height: 88px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       object-fit: cover;
       object-position: center top;
       display: block;
-      border: 3px solid #000;
     }
 
     /* ── Profile text ── */
@@ -188,11 +154,6 @@
 </head>
 <body>
 
-  <!-- Seattle photo banner -->
-  <div class="banner">
-    <img src="seattle.jpg" alt="Seattle" />
-  </div>
-
   <div class="page">
 
     <!-- Avatar -->
@@ -203,7 +164,7 @@
     <!-- Profile -->
     <div class="profile">
       <div class="profile-name">Vihaan Shringi</div>
-      <p class="profile-bio">CS @ CMU. Founder of OncoScan (AWS funded), expanding AIValley with OpenAI & NVIDIA, research at a Nobel-winning lab. Building things that matter.</p>
+      <p class="profile-bio">building in ai + health. cs @ cmu.</p>
     </div>
 
     <!-- Links -->
